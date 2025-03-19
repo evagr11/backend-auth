@@ -35,7 +35,7 @@ npm i express
 ```bash
 npm i better-sqlite3
 ```
-3. Lo integramos 
+3. Lo integramos en nuestro server
 
 ```js
 //Conectar a la base de datos
@@ -46,5 +46,11 @@ const initSqlPath = path.join(__dirname, 'init.sql');
 //Leemos el archivo init.sql
 const initSql = fs.readFileSync(initSqlPath, 'utf8');
 //Ejecutamos el contenido de init.sql
+//exec solo funciona para queries que *NO* devuelven datos
 db.exec(initSql);
+//Para consultas que *SI* devuelven datos usamos prepare
+// y luego lo ejecutamos con .all()
+const query = db.prepare('SELECT * FROM users');
+const users = query.all();
+console.log(users);
 ```
